@@ -6,130 +6,130 @@
     <title>Element Combiner</title>
     <style>
         body {
-    font-family: Arial, sans-serif;
-    background-color: #f0f0f0;
-    color: #333;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    margin: 0;
-}
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            color: #333;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
 
-.container {
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    width: 400px;
-    text-align: center;
-    height: 90vh;
-    overflow: auto;
-}
+        .container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 400px;
+            text-align: center;
+            height: 90vh;
+            overflow: auto;
+        }
 
-h1 {
-    margin-bottom: 20px;
-}
+        h1 {
+            margin-bottom: 20px;
+        }
 
-form {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
 
-input[type="text"] {
-    padding: 10px;
-    margin-bottom: 10px;
-    width: 100%;
-    box-sizing: border-box;
-}
+        input[type="text"] {
+            padding: 10px;
+            margin-bottom: 10px;
+            width: 100%;
+            box-sizing: border-box;
+        }
 
-button {
-    padding: 10px;
-    cursor: pointer;
-}
+        button {
+            padding: 10px;
+            cursor: pointer;
+        }
 
-#combinationList {
-    list-style-type: none;
-    padding: 0;
-    margin: 20px 0;
-    max-height: 300px;
-    overflow: auto;
-}
+        #combinationList {
+            list-style-type: none;
+            padding: 0;
+            margin: 20px 0;
+            max-height: 300px;
+            overflow: auto;
+        }
 
-#combinationList li {
-    background-color: #e0e0e0;
-    padding: 10px;
-    margin-bottom: 5px;
-    border-radius: 4px;
-}
+        #combinationList li {
+            background-color: #e0e0e0;
+            padding: 10px;
+            margin-bottom: 5px;
+            border-radius: 4px;
+        }
 
-#combinationList li a {
-    color: #007bff;
-    text-decoration: none;
-    margin: 0 5px;
-}
+        #combinationList li a {
+            color: #007bff;
+            text-decoration: none;
+            margin: 0 5px;
+        }
 
-#combinationList li a:hover {
-    text-decoration: underline;
-}
+        #combinationList li a:hover {
+            text-decoration: underline;
+        }
 
-#jsonFileInput {
-    margin-top: 10px;
-}
+        #jsonFileInput {
+            margin-top: 10px;
+        }
 
-#clearStorage {
-    margin-top: 10px;
-}
+        #clearStorage {
+            margin-top: 10px;
+        }
 
-.guide {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.8);
-    color: #fff;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    overflow: auto; /* Make the guide section scrollable */
-}
+        .guide {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            color: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            overflow: auto;
+        }
 
-.guide.hidden {
-    display: none;
-}
+        .guide.hidden {
+            display: none;
+        }
 
-#guide h2 {
-    margin-bottom: 20px;
-}
+        #guide h2 {
+            margin-bottom: 20px;
+        }
 
-#guideSteps {
-    list-style-type: none;
-    padding: 0;
-    margin-bottom: 20px;
-    max-height: 70vh; /* Limit the height of the steps list */
-    overflow-y: auto; /* Make the steps list scrollable */
-}
+        #guideSteps {
+            list-style-type: none;
+            padding: 0;
+            margin-bottom: 20px;
+            max-height: 70vh;
+            overflow-y: auto;
+        }
 
-#guideSteps li {
-    background-color: #333;
-    padding: 10px;
-    margin-bottom: 5px;
-    border-radius: 4px;
-}
+        #guideSteps li {
+            background-color: #333;
+            padding: 10px;
+            margin-bottom: 5px;
+            border-radius: 4px;
+        }
 
-#closeGuide {
-    padding: 10px;
-    cursor: pointer;
-}
+        #closeGuide {
+            padding: 10px;
+            cursor: pointer;
+        }
 
-#loading {
-    text-align: center;
-    padding: 10px;
-    background-color: #fff;
-}
+        #loading {
+            text-align: center;
+            padding: 10px;
+            background-color: #fff;
+        }
     </style>
 </head>
 <body>
@@ -160,175 +160,188 @@ button {
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-    const combinationForm = document.getElementById('combinationForm');
-    const combinationInput = document.getElementById('combinationInput');
-    const combinationList = document.getElementById('combinationList');
-    const jsonFileInput = document.getElementById('jsonFileInput');
-    const clearStorageButton = document.getElementById('clearStorage');
-    const guide = document.getElementById('guide');
-    const guideSteps = document.getElementById('guideSteps');
-    const closeGuideButton = document.getElementById('closeGuide');
-    const targetElementSpan = document.getElementById('targetElement');
-    const loading = document.getElementById('loading');
-    const searchInput = document.getElementById('searchInput');
+            const combinationForm = document.getElementById('combinationForm');
+            const combinationInput = document.getElementById('combinationInput');
+            const combinationList = document.getElementById('combinationList');
+            const jsonFileInput = document.getElementById('jsonFileInput');
+            const clearStorageButton = document.getElementById('clearStorage');
+            const guide = document.getElementById('guide');
+            const guideSteps = document.getElementById('guideSteps');
+            const closeGuideButton = document.getElementById('closeGuide');
+            const targetElementSpan = document.getElementById('targetElement');
+            const loading = document.getElementById('loading');
+            const searchInput = document.getElementById('searchInput');
 
-    const combinationsKey = 'combinations';
-    const elementsKey = 'elements';
-    const batchSize = 20;
-    let loadedCount = 0;
+            const combinationsKey = 'combinations';
+            const elementsKey = 'elements';
+            const batchSize = 20;
+            let loadedCount = 0;
 
-    // Load combinations from localStorage
-    function loadCombinations(initialLoad = false, filter = '') {
-        const storedCombinations = JSON.parse(localStorage.getItem(combinationsKey)) || [];
-        if (initialLoad) {
-            loadedCount = 0;
-            combinationList.innerHTML = '';
-        }
-        const nextBatch = storedCombinations.filter(comb => comb.includes(filter)).slice(loadedCount, loadedCount + batchSize);
-        nextBatch.forEach(combination => {
-            const li = document.createElement('li');
-            const [ingredients, result] = combination.split(' = ');
-            const ingredientsLinks = ingredients.split(' + ').map(ingredient => `<a href="#" data-element="${ingredient.trim()}">${ingredient.trim()}</a>`).join(' + ');
-            const resultLink = `<a href="#" data-element="${result.trim()}">${result.trim()}</a>`;
-            li.innerHTML = `${ingredientsLinks} = ${resultLink}`;
-            combinationList.appendChild(li);
-        });
-        loadedCount += batchSize;
-    }
-
-    // Save a new combination to localStorage
-    function saveCombination(combination) {
-        const storedCombinations = JSON.parse(localStorage.getItem(combinationsKey)) || [];
-        storedCombinations.push(combination);
-        localStorage.setItem(combinationsKey, JSON.stringify(storedCombinations));
-    }
-
-    // Handle form submission
-    combinationForm.addEventListener('submit', (e) => {
-        e.preventDefault();
-        const combination = combinationInput.value.trim();
-        if (combination) {
-            saveCombination(combination);
-            loadCombinations(true);
-            combinationInput.value = '';
-        }
-    });
-
-    // Handle JSON file upload
-    jsonFileInput.addEventListener('change', (e) => {
-        const file = e.target.files[0];
-        if (file) {
-            const reader = new FileReader();
-            reader.onload = (event) => {
-                try {
-                    const json = JSON.parse(event.target.result);
-                    if (json.elements && json.recipes) {
-                        localStorage.setItem(elementsKey, JSON.stringify(json.elements));
-                        localStorage.setItem(combinationsKey, JSON.stringify([])); // Clear previous combinations
-                        Object.keys(json.recipes).forEach(result => {
-                            json.recipes[result].forEach(recipe => {
-                                const combination = recipe.map(element => element.text.toLowerCase()).join(' + ') + ' = ' + result.toLowerCase();
-                                saveCombination(combination);
-                            });
-                        });
-                        loadCombinations(true);
-                    } else {
-                        alert('Invalid JSON format');
-                    }
-                } catch (err) {
-                    alert('Error parsing JSON');
+            // Load combinations from localStorage
+            function loadCombinations(initialLoad = false, filter = '') {
+                const storedCombinations = JSON.parse(localStorage.getItem(combinationsKey)) || [];
+                if (initialLoad) {
+                    loadedCount = 0;
+                    combinationList.innerHTML = '';
                 }
-            };
-            reader.readAsText(file);
-        }
-    });
-
-    // Handle clear storage
-    clearStorageButton.addEventListener('click', () => {
-        localStorage.removeItem(combinationsKey);
-        localStorage.removeItem(elementsKey);
-        loadCombinations(true);
-    });
-
-    // Show guide
-    combinationList.addEventListener('click', (e) => {
-        if (e.target.tagName === 'A') {
-            e.preventDefault();
-            const targetElement = e.target.getAttribute('data-element');
-            targetElementSpan.textContent = targetElement;
-            guideSteps.innerHTML = '';
-            const storedCombinations = JSON.parse(localStorage.getItem(combinationsKey)) || [];
-            const steps = findSteps(targetElement, storedCombinations);
-            steps.forEach(step => { // Display in correct order
-                const li = document.createElement('li');
-                li.textContent = step;
-                guideSteps.appendChild(li);
-            });
-            guide.classList.remove('hidden');
-        }
-    });
-
-    // Close guide
-    closeGuideButton.addEventListener('click', () => {
-        guide.classList.add('hidden');
-    });
-
-    // Find steps to create target element using BFS
-    function findSteps(target, combinations) {
-        const steps = [];
-        const combinationMap = new Map(combinations.map(comb => {
-            const [ingredients, result] = comb.split(' = ');
-            return [result.trim(), ingredients.trim()];
-        }));
-
-        const queue = [[target, []]];
-        const visited = new Set();
-
-        while (queue.length > 0) {
-            const [currentElement, path] = queue.shift();
-            if (visited.has(currentElement)) continue;
-            visited.add(currentElement);
-
-            const combination = combinationMap.get(currentElement);
-            if (combination) {
-                const newPath = [...path, combination + ' = ' + currentElement];
-                const ingredients = combination.split(' + ');
-                ingredients.forEach(ingredient => {
-                    queue.push([ingredient.trim(), newPath]);
+                const nextBatch = storedCombinations.filter(comb => comb.includes(filter)).slice(loadedCount, loadedCount + batchSize);
+                nextBatch.forEach(combination => {
+                    const li = document.createElement('li');
+                    const [ingredients, result] = combination.split(' = ');
+                    const ingredientsLinks = ingredients.split(' + ').map(ingredient => `<a href="#" data-element="${ingredient.trim()}">${ingredient.trim()}</a>`).join(' + ');
+                    const resultLink = `<a href="#" data-element="${result.trim()}">${result.trim()}</a>`;
+                    li.innerHTML = `${ingredientsLinks} = ${resultLink}`;
+                    combinationList.appendChild(li);
                 });
-            } else {
-                steps.push(...path);
-                break;
+                loadedCount += batchSize;
             }
-        }
 
-        steps.reverse();
-        return steps;
-    }
+            // Save a new combination to localStorage
+            function saveCombination(combination) {
+                const storedCombinations = JSON.parse(localStorage.getItem(combinationsKey)) || [];
+                storedCombinations.push(combination);
+                localStorage.setItem(combinationsKey, JSON.stringify(storedCombinations));
+            }
 
-    // Initial load
-    loadCombinations(true);
+            // Handle form submission
+            combinationForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const combination = combinationInput.value.trim();
+                if (combination) {
+                    saveCombination(combination);
+                    loadCombinations(true);
+                    combinationInput.value = '';
+                }
+            });
 
-    // Set up intersection observer for lazy loading
-    const observer = new IntersectionObserver((entries) => {
-        if (entries[0].isIntersecting) {
-            loadCombinations();
-        }
-    }, {
-        root: document.querySelector('.container'),
-        rootMargin: '0px',
-        threshold: 1.0
-    });
+            // Handle JSON file upload
+            jsonFileInput.addEventListener('change', (e) => {
+                const file = e.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = (event) => {
+                        try {
+                            const json = JSON.parse(event.target.result);
+                            if (json.elements && json.recipes) {
+                                localStorage.setItem(elementsKey, JSON.stringify(json.elements));
+                                localStorage.setItem(combinationsKey, JSON.stringify([])); // Clear previous combinations
+                                Object.keys(json.recipes).forEach(result => {
+                                    json.recipes[result].forEach(recipe => {
+                                        const combination = recipe.map(element => element.text.toLowerCase()).join(' + ') + ' = ' + result.toLowerCase();
+                                        saveCombination(combination);
+                                    });
+                                });
+                                loadCombinations(true);
+                            } else {
+                                alert('Invalid JSON format');
+                            }
+                        } catch (err) {
+                            alert('Error parsing JSON');
+                        }
+                    };
+                    reader.readAsText(file);
+                }
+            });
 
-    // Observe the loading div
-    observer.observe(loading);
+            // Handle clear storage
+            clearStorageButton.addEventListener('click', () => {
+                localStorage.removeItem(combinationsKey);
+                localStorage.removeItem(elementsKey);
+                loadCombinations(true);
+            });
 
-    // Handle search input
-    searchInput.addEventListener('input', (e) => {
-        loadCombinations(true, e.target.value.trim().toLowerCase());
-    });
-});
+            // Show guide
+            combinationList.addEventListener('click', (e) => {
+                if (e.target.tagName === 'A') {
+                    e.preventDefault();
+                    const targetElement = e.target.getAttribute('data-element');
+                    targetElementSpan.textContent = targetElement;
+                    guideSteps.innerHTML = '';
+                    const storedCombinations = JSON.parse(localStorage.getItem(combinationsKey)) || [];
+                    const steps = findSteps(targetElement, storedCombinations);
+                    steps.forEach(step => { // Display in correct order
+                        const li = document.createElement('li');
+                        li.textContent = step;
+                        guideSteps.appendChild(li);
+                    });
+                    guide.classList.remove('hidden');
+                }
+            });
+
+            // Close guide
+            closeGuideButton.addEventListener('click', () => {
+                guide.classList.add('hidden');
+            });
+
+            // Find steps to create target element using BFS
+            function findSteps(target, combinations) {
+                const steps = [];
+                const combinationMap = new Map(combinations.map(comb => {
+                    const [ingredients, result] = comb.split(' = ');
+                    return [result.trim(), ingredients.trim()];
+                }));
+
+                const queue = [[target, []]];
+                const visited = new Set();
+                const allSteps = [];
+
+                while (queue.length > 0) {
+                    const [currentElement, path] = queue.shift();
+                    if (visited.has(currentElement)) continue;
+                    visited.add(currentElement);
+
+                    const combination = combinationMap.get(currentElement);
+                    if (combination) {
+                        const newPath = [...path, combination + ' = ' + currentElement];
+                        const ingredients = combination.split(' + ');
+                        ingredients.forEach(ingredient => {
+                            queue.push([ingredient.trim(), newPath]);
+                        });
+                        allSteps.push(newPath);
+                    } else {
+                        steps.push(...path);
+                        break;
+                    }
+                }
+
+                steps.reverse();
+                const completeSteps = [];
+                const seen = new Set();
+
+                steps.forEach(step => {
+                    const parts = step.split(' = ');
+                    const result = parts[1].trim();
+                    if (!seen.has(result)) {
+                        completeSteps.push(step);
+                        seen.add(result);
+                    }
+                });
+
+                return completeSteps.reverse();
+            }
+
+            // Initial load
+            loadCombinations(true);
+
+            // Set up intersection observer for lazy loading
+            const observer = new IntersectionObserver((entries) => {
+                if (entries[0].isIntersecting) {
+                    loadCombinations();
+                }
+            }, {
+                root: document.querySelector('.container'),
+                rootMargin: '0px',
+                threshold: 1.0
+            });
+
+            // Observe the loading div
+            observer.observe(loading);
+
+            // Handle search input
+            searchInput.addEventListener('input', (e) => {
+                loadCombinations(true, e.target.value.trim().toLowerCase());
+            });
+        });
     </script>
 </body>
 </html>
-
