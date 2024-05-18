@@ -3,23 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Element Combinations</title>
+    <title>Element Combiner</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <header>
-        <h1>Element Combinations</h1>
-        <button id="darkModeToggle">Dark Mode</button>
-    </header>
-    <main>
-        <section id="elements">
-            <!-- Elements will be displayed here -->
-        </section>
-        <section id="guide">
-            <!-- Guide steps will be displayed here -->
-        </section>
-    </main>
-    <input type="file" id="jsonFileInput">
+    <div class="container">
+        <h1>Element Combiner</h1>
+        
+        <form id="combinationForm">
+            <input type="text" id="combinationInput" placeholder="Enter combination (e.g., water + earth = plant)">
+            <button type="submit">Add Combination</button>
+        </form>
+
+        <input type="text" id="searchInput" placeholder="Search elements...">
+        
+        <ul id="combinationList"></ul>
+        
+        <input type="file" id="jsonFileInput">
+        
+        <button id="clearStorage">Clear Storage</button>
+
+        <div id="guide" class="guide hidden">
+            <h2>How to Make <span id="targetElement"></span></h2>
+            <ul id="guideSteps"></ul>
+            <button id="closeGuide">Close</button>
+        </div>
+
+        <div id="loading" class="hidden">Loading...</div>
+    </div>
+
     <script src="script.js"></script>
 </body>
 </html>
+
