@@ -1,0 +1,39 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f0f0f0;
+}
+
+header {
+    background-color: #333;
+    color: #fff;
+    padding: 20px;
+    text-align: center;
+}
+
+main {
+    padding: 20px;
+}
+
+#elements {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.element {
+    cursor: pointer;
+    padding: 10px;
+    border-radius: 5px;
+    background-color: #ddd;
+}
+
+#guide {
+    margin-top: 20px;
+}
+
+.dark-mode {
+    background-color: #222;
+    color: #fff;
+}
