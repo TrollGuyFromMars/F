@@ -204,141 +204,81 @@
             }
 
             // Handle form submission
-            combinationForm.addEventListener('submit', (e) => {
-                e.preventDefault();
-                const combination = combinationInput.value.trim();
-                if (combination) {
-                    saveCombination(combination);
-                    loadCombinations(true);
-                    combinationInput.value = '';
-                }
-            });
+combinationForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const combination = combinationInput.value.trim();
+    if (combination) {
+        saveCombination(combination);
+        loadCombinations(true);
+        combinationInput.value = '';
+    }
+});
 
-            // Handle JSON file upload
-            jsonFileInput.addEventListener('change', (e) => {
-                const file = e.target.files[0];
-                if (file) {
-                    const reader = new FileReader();
-                    reader.onload = (event) => {
-                        try {
-                            const json = JSON.parse(event.target.result);
-                            if (json.elements && json.recipes) {
-                                localStorage.setItem(elementsKey, JSON.stringify(json.elements));
-                                localStorage.setItem(combinationsKey, JSON.stringify([])); // Clear previous combinations
-                                Object.keys(json.recipes).forEach(result => {
-                                    json.recipes[result].forEach(recipe => {
-                                        const combination = recipe.map(element => element.text.toLowerCase()).join(' + ') + ' = ' + result.toLowerCase();
-                                        saveCombination(combination);
-                                    });
-                                });
-                                loadCombinations(true);
-                            } else {
-                                alert('Invalid JSON format');
-                            }
-                        } catch (err) {
-                            alert('Error parsing JSON');
-                        }
-                    };
-                    reader.readAsText(file);
-                }
-            });
-
-            // Handle clear storage
-            clearStorageButton.addEventListener('click', () => {
-                localStorage.removeItem(combinationsKey);
-                localStorage.removeItem(elementsKey);
-                loadCombinations(true);
-            });
-
-            // Show guide
-            combinationList.addEventListener('click', (e) => {
-                if (e.target.tagName === 'A') {
-                    e.preventDefault();
-                    const targetElement = e.target.getAttribute('data-element');
-                    targetElementSpan.textContent = targetElement;
-                    guideSteps.innerHTML = '';
-                    const storedCombinations = JSON.parse(localStorage.getItem(combinationsKey)) || [];
-                    const steps = findSteps(targetElement, storedCombinations);
-                    steps.forEach(step => { // Display in correct order
-                        const li = document.createElement('li');
-                        li.textContent = step;
-                        guideSteps.appendChild(li);
-                    });
-                    guide.classList.remove('hidden');
-                }
-            });
-
-            // Close guide
-            closeGuideButton.addEventListener('click', () => {
-                guide.classList.add('hidden');
-            });
-
-            // Find steps to create target element using BFS
-            function findSteps(target, combinations) {
-                const combinationMap = new Map(combinations.map(comb => {
-                    const [ingredients, result] = comb.split(' = ');
-                    return [result.trim(), ingredients.trim()];
-                }));
-
-                const stepsMap = new Map();
-                const queue = [target];
-                const pathMap = new Map();
-                pathMap.set(target, []);
-
-                while (queue.length > 0) {
-                    const currentElement = queue.shift();
-                    const path = pathMap.get(currentElement);
-                    const combination = combinationMap.get(currentElement);
-
-                    if (combination) {
-                        const ingredients = combination.split(' + ').map(ingredient => ingredient.trim());
-                        const newPath = [...path, combination + ' = ' + currentElement];
-                        stepsMap.set(currentElement, newPath);
-
-                        ingredients.forEach(ingredient => {
-                            if (!pathMap.has(ingredient)) {
-                                queue.push(ingredient);
-                                pathMap.set(ingredient, newPath);
-                            }
+// Handle JSON file upload
+jsonFileInput.addEventListener('change', (e) => {
+    const file = e.target.files[0];
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = (event) => {
+            try {
+                const json = JSON.parse(event.target.result);
+                if (json.elements && json.recipes) {
+                    localStorage.setItem(elementsKey, JSON.stringify(json.elements));
+                    localStorage.setItem(combinationsKey, JSON.stringify([])); // Clear previous combinations
+                    Object.keys(json.recipes).forEach(result => {
+                        json.recipes[result].forEach(recipe => {
+                            const combination = recipe.map(element => element.text.toLowerCase()).join(' + ') + ' = ' + result.toLowerCase();
+                            saveCombination(combination);
                         });
-                    }
+                    });
+                    loadCombinations(true);
+                } else {
+                    alert('Invalid JSON format');
                 }
-
-                const steps = [];
-                let currentElement = target;
-
-                while (stepsMap.has(currentElement)) {
-                    const step = stepsMap.get(currentElement).pop();
-                    steps.push(step);
-                    const ingredients = step.split(' = ')[0].split(' + ').map(ingredient => ingredient.trim());
-                    currentElement = ingredients.find(ingredient => stepsMap.has(ingredient));
-                }
-
-                return steps.reverse();
+            } catch (err) {
+                alert('Error parsing JSON');
             }
+        };
+        reader.readAsText(file);
+    }
+});
 
-            // Initial load
-            loadCombinations(true);
+// Handle clear storage
+clearStorageButton.addEventListener('click', () => {
+    localStorage.removeItem(combinationsKey);
+    localStorage.removeItem(elementsKey);
+    loadCombinations(true);
+});
 
-            // Set up intersection observer for lazy loading
-            const observer = new IntersectionObserver((entries) => {
-                if (entries[0].isIntersecting) {
-                    loadCombinations();
-                }
-            }, {
-                root: document.querySelector('.container'),
-                rootMargin: '0px',
-                threshold: 1.0
-            });
-
-            // Observe the loading div
-            observer.observe(loading);
-
-            // Handle search input
-            searchInput.addEventListener('input', (e) => {
-                loadCombinations(true, e.target.value.trim().toLowerCase());
-            });
+// Show guide
+combinationList.addEventListener('click', (e) => {
+    if (e.target.tagName === 'A') {
+        e.preventDefault();
+        const targetElement = e.target.getAttribute('data-element');
+        targetElementSpan.textContent = targetElement;
+        guideSteps.innerHTML = '';
+        const storedCombinations = JSON.parse(localStorage.getItem(combinationsKey)) || [];
+        const steps = findSteps(targetElement, storedCombinations);
+        steps.forEach(step => { // Display in correct order
+            const li = document.createElement('li');
+            li.textContent = step;
+            guideSteps.appendChild(li);
         });
+        guide.classList.remove('hidden');
+    }
+});
+
+// Close guide
+closeGuideButton.addEventListener('click', () => {
+    guide.classList.add('hidden');
+});
+
+// Handle search input
+searchInput.addEventListener('input', (e) => {
+    loadCombinations(true, e.target.value.trim().toLowerCase());
+});
+        //---------------------------------------------------------------------------------------
+       
     </script>
 </body>
 </html>
