@@ -280,25 +280,22 @@
                     return [result.trim(), ingredients.trim()];
                 }));
 
-                const stepsMap = new Map();
-                const queue = [target];
-                const pathMap = new Map();
-                pathMap.set(target, []);
+                const queue = [[target, []]];
+                const paths = new Map();
+                paths.set(target, []);
 
                 while (queue.length > 0) {
-                    const currentElement = queue.shift();
-                    const path = pathMap.get(currentElement);
-                    const combination = combinationMap.get(currentElement);
+                    const [currentElement, path] = queue.shift();
 
+                    const combination = combinationMap.get(currentElement);
                     if (combination) {
                         const ingredients = combination.split(' + ').map(ingredient => ingredient.trim());
                         const newPath = [...path, combination + ' = ' + currentElement];
-                        stepsMap.set(currentElement, newPath);
 
                         ingredients.forEach(ingredient => {
-                            if (!pathMap.has(ingredient)) {
-                                queue.push(ingredient);
-                                pathMap.set(ingredient, newPath);
+                            if (!paths.has(ingredient)) {
+                                queue.push([ingredient, newPath]);
+                                paths.set(ingredient, newPath);
                             }
                         });
                     }
@@ -307,11 +304,11 @@
                 const steps = [];
                 let currentElement = target;
 
-                while (stepsMap.has(currentElement)) {
-                    const step = stepsMap.get(currentElement).pop();
+                while (paths.has(currentElement)) {
+                    const step = paths.get(currentElement).pop();
                     steps.push(step);
                     const ingredients = step.split(' = ')[0].split(' + ').map(ingredient => ingredient.trim());
-                    currentElement = ingredients.find(ingredient => stepsMap.has(ingredient));
+                    currentElement = ingredients.find(ingredient => paths.has(ingredient));
                 }
 
                 return steps.reverse();
