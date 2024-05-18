@@ -275,49 +275,46 @@
 
             // Find steps to create target element using BFS
             function findSteps(target, combinations) {
-                const steps = [];
                 const combinationMap = new Map(combinations.map(comb => {
                     const [ingredients, result] = comb.split(' = ');
                     return [result.trim(), ingredients.trim()];
                 }));
 
-                const queue = [[target, []]];
-                const visited = new Set();
-                const allSteps = [];
+                const stepsMap = new Map();
+                const queue = [target];
+                const pathMap = new Map();
+                pathMap.set(target, []);
 
                 while (queue.length > 0) {
-                    const [currentElement, path] = queue.shift();
-                    if (visited.has(currentElement)) continue;
-                    visited.add(currentElement);
-
+                    const currentElement = queue.shift();
+                    const path = pathMap.get(currentElement);
                     const combination = combinationMap.get(currentElement);
+
                     if (combination) {
+                        const ingredients = combination.split(' + ').map(ingredient => ingredient.trim());
                         const newPath = [...path, combination + ' = ' + currentElement];
-                        const ingredients = combination.split(' + ');
+                        stepsMap.set(currentElement, newPath);
+
                         ingredients.forEach(ingredient => {
-                            queue.push([ingredient.trim(), newPath]);
+                            if (!pathMap.has(ingredient)) {
+                                queue.push(ingredient);
+                                pathMap.set(ingredient, newPath);
+                            }
                         });
-                        allSteps.push(newPath);
-                    } else {
-                        steps.push(...path);
-                        break;
                     }
                 }
 
-                steps.reverse();
-                const completeSteps = [];
-                const seen = new Set();
+                const steps = [];
+                let currentElement = target;
 
-                steps.forEach(step => {
-                    const parts = step.split(' = ');
-                    const result = parts[1].trim();
-                    if (!seen.has(result)) {
-                        completeSteps.push(step);
-                        seen.add(result);
-                    }
-                });
+                while (stepsMap.has(currentElement)) {
+                    const step = stepsMap.get(currentElement).pop();
+                    steps.push(step);
+                    const ingredients = step.split(' = ')[0].split(' + ').map(ingredient => ingredient.trim());
+                    currentElement = ingredients.find(ingredient => stepsMap.has(ingredient));
+                }
 
-                return completeSteps.reverse();
+                return steps.reverse();
             }
 
             // Initial load
