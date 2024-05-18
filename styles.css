@@ -1,39 +1,126 @@
 body {
     font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
     background-color: #f0f0f0;
-}
-
-header {
-    background-color: #333;
-    color: #fff;
-    padding: 20px;
-    text-align: center;
-}
-
-main {
-    padding: 20px;
-}
-
-#elements {
+    color: #333;
     display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
 }
 
-.element {
-    cursor: pointer;
+.container {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 400px;
+    text-align: center;
+    height: 90vh;
+    overflow: auto;
+}
+
+h1 {
+    margin-bottom: 20px;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+input[type="text"] {
     padding: 10px;
-    border-radius: 5px;
-    background-color: #ddd;
+    margin-bottom: 10px;
+    width: 100%;
+    box-sizing: border-box;
 }
 
-#guide {
-    margin-top: 20px;
+button {
+    padding: 10px;
+    cursor: pointer;
 }
 
-.dark-mode {
-    background-color: #222;
+#combinationList {
+    list-style-type: none;
+    padding: 0;
+    margin: 20px 0;
+    max-height: 300px;
+    overflow: auto;
+}
+
+#combinationList li {
+    background-color: #e0e0e0;
+    padding: 10px;
+    margin-bottom: 5px;
+    border-radius: 4px;
+}
+
+#combinationList li a {
+    color: #007bff;
+    text-decoration: none;
+    margin: 0 5px;
+}
+
+#combinationList li a:hover {
+    text-decoration: underline;
+}
+
+#jsonFileInput {
+    margin-top: 10px;
+}
+
+#clearStorage {
+    margin-top: 10px;
+}
+
+.guide {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
     color: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    overflow: auto; /* Make the guide section scrollable */
 }
+
+.guide.hidden {
+    display: none;
+}
+
+#guide h2 {
+    margin-bottom: 20px;
+}
+
+#guideSteps {
+    list-style-type: none;
+    padding: 0;
+    margin-bottom: 20px;
+    max-height: 70vh; /* Limit the height of the steps list */
+    overflow-y: auto; /* Make the steps list scrollable */
+}
+
+#guideSteps li {
+    background-color: #333;
+    padding: 10px;
+    margin-bottom: 5px;
+    border-radius: 4px;
+}
+
+#closeGuide {
+    padding: 10px;
+    cursor: pointer;
+}
+
+#loading {
+    text-align: center;
+    padding: 10px;
+    background-color: #fff;
+}
+
